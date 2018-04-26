@@ -12,6 +12,7 @@ class Protocol {
     private static mapListener:Object;
 
     static init(){
+        ProtocolHash.registHashes();
         var byteResp:Byte = new Byte();
         var byteRespR:Byte = new Byte();
         var isDecodeBody:boolean;
@@ -146,5 +147,5 @@ class MessageVO{
 }
 
 interface ISequence{
-    __getSequence():number;
+    __$Sequence():number;
 }

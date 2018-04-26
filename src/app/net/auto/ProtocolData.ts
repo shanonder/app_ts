@@ -4,21 +4,21 @@ class AttributesData implements ISequence{
      * 属性
      */
 
-	public __getSequence(){return 1;}
+	public __$Sequence(){return 1;}
 
 	public cfgId : number;	//配置表ID
-	public value : number;	//
+	public value : Uint64;	//
 
     public static readByte(byte:Byte , data?:AttributesData):AttributesData{
         if(!data) data = new AttributesData();
-		data.cfgId = ByteUtil.readInt32(byte);
-		data.value = ByteUtil.readFloat64(byte);
+		data.cfgId = ByteUtil.readUint32(byte);
+		data.value = ByteUtil.readUint64(byte);
         return data;
     }
 
     public static writeByte(byte:Byte , data:AttributesData):Byte{
-		ByteUtil.writeInt32(byte, data.cfgId);
-		ByteUtil.writeFloat64(byte, data.value);
+		ByteUtil.writeUint32(byte, data.cfgId);
+		ByteUtil.writeUint64(byte, data.value);
         return byte;
     }
 }
@@ -27,27 +27,27 @@ class ItemData implements ISequence{
      * 物品
      */
 
-	public __getSequence(){return 4;}
+	public __$Sequence(){return 4;}
 
 	public insId : string;	//唯一ID
 	public cfgId : number;	//配置表ID
 	public type : string;	//分类
-	public createTime : number;	//创建时间
+	public createTime : Uint64;	//创建时间
 
     public static readByte(byte:Byte , data?:ItemData):ItemData{
         if(!data) data = new ItemData();
 		data.insId = ByteUtil.readString(byte);
-		data.cfgId = ByteUtil.readInt32(byte);
+		data.cfgId = ByteUtil.readUint32(byte);
 		data.type = ByteUtil.readString(byte);
-		data.createTime = ByteUtil.readFloat64(byte);
+		data.createTime = ByteUtil.readUint64(byte);
         return data;
     }
 
     public static writeByte(byte:Byte , data:ItemData):Byte{
 		ByteUtil.writeString(byte, data.insId);
-		ByteUtil.writeInt32(byte, data.cfgId);
+		ByteUtil.writeUint32(byte, data.cfgId);
 		ByteUtil.writeString(byte, data.type);
-		ByteUtil.writeFloat64(byte, data.createTime);
+		ByteUtil.writeUint64(byte, data.createTime);
         return byte;
     }
 }
@@ -56,7 +56,7 @@ class EquipData extends ItemData{
      * 武器
      */
 
-	public __getSequence(){return 2;}
+	public __$Sequence(){return 2;}
 
 	public strenthLv : number;	//唯一ID
 	public attributes : AttributesData[];	//属性
@@ -64,14 +64,14 @@ class EquipData extends ItemData{
     public static readByte(byte:Byte , data?:EquipData):EquipData{
         if(!data) data = new EquipData();
 		ItemData.readByte(byte,data);
-		data.strenthLv = ByteUtil.readInt32(byte);
+		data.strenthLv = ByteUtil.readUint32(byte);
 		data.attributes = ByteUtil.readArray(byte , AttributesData.readByte);
         return data;
     }
 
     public static writeByte(byte:Byte , data:EquipData):Byte{
 		ItemData.writeByte(byte,data);
-		ByteUtil.writeInt32(byte, data.strenthLv);
+		ByteUtil.writeUint32(byte, data.strenthLv);
 		ByteUtil.writeArray(byte , data.attributes , AttributesData.writeByte);
         return byte;
     }
@@ -81,7 +81,7 @@ class PackData implements ISequence{
      * 
      */
 
-	public __getSequence(){return 5;}
+	public __$Sequence(){return 5;}
 
 	public type : number;	//唯一ID
 	public openLength : number;	//开启长度
@@ -107,7 +107,7 @@ class GridData implements ISequence{
      * 
      */
 
-	public __getSequence(){return 3;}
+	public __$Sequence(){return 3;}
 
 	public index : number;	//序号
 	public item : ItemData;	//唯一ID
@@ -125,59 +125,40 @@ class GridData implements ISequence{
         return byte;
     }
 }
-class RoleBaseData implements ISequence{
+class RoleData implements ISequence{
     /**
      * 
      */
 
-	public __getSequence(){return 6;}
+	public __$Sequence(){return 6;}
 
 	public insId : string;	//唯一ID
 	public profId : number;	//职业ID
 	public serverId : number;	//服务器ID
 	public name : string;	//姓名
 	public level : number;	//等级
-
-    public static readByte(byte:Byte , data?:RoleBaseData):RoleBaseData{
-        if(!data) data = new RoleBaseData();
-		data.insId = ByteUtil.readString(byte);
-		data.profId = ByteUtil.readInt16(byte);
-		data.serverId = ByteUtil.readInt16(byte);
-		data.name = ByteUtil.readString(byte);
-		data.level = ByteUtil.readInt32(byte);
-        return data;
-    }
-
-    public static writeByte(byte:Byte , data:RoleBaseData):Byte{
-		ByteUtil.writeString(byte, data.insId);
-		ByteUtil.writeInt16( byte, data.profId);
-		ByteUtil.writeInt16( byte, data.serverId);
-		ByteUtil.writeString(byte, data.name);
-		ByteUtil.writeInt32(byte, data.level);
-        return byte;
-    }
-}
-class RoleData extends RoleBaseData{
-    /**
-     * 
-     */
-
-	public __getSequence(){return 7;}
-
-	public exp : number;	//经验
+	public exp : Uint64;	//经验
 	public attributes : AttributesData[];	//属性
 
     public static readByte(byte:Byte , data?:RoleData):RoleData{
         if(!data) data = new RoleData();
-		RoleBaseData.readByte(byte,data);
-		data.exp = ByteUtil.readFloat64(byte);
+		data.insId = ByteUtil.readString(byte);
+		data.profId = ByteUtil.readUint32(byte);
+		data.serverId = ByteUtil.readInt16(byte);
+		data.name = ByteUtil.readString(byte);
+		data.level = ByteUtil.readUint32(byte);
+		data.exp = ByteUtil.readUint64(byte);
 		data.attributes = ByteUtil.readArray(byte , AttributesData.readByte);
         return data;
     }
 
     public static writeByte(byte:Byte , data:RoleData):Byte{
-		RoleBaseData.writeByte(byte,data);
-		ByteUtil.writeFloat64(byte, data.exp);
+		ByteUtil.writeString(byte, data.insId);
+		ByteUtil.writeUint32(byte, data.profId);
+		ByteUtil.writeInt16( byte, data.serverId);
+		ByteUtil.writeString(byte, data.name);
+		ByteUtil.writeUint32(byte, data.level);
+		ByteUtil.writeUint64(byte, data.exp);
 		ByteUtil.writeArray(byte , data.attributes , AttributesData.writeByte);
         return byte;
     }
@@ -205,9 +186,9 @@ class Heap{
      * 心跳包
      */
 
-	public time : number;	//当前时间
+	public time : Uint64;	//当前时间
     constructor(byte:Byte){
-		this.time = ByteUtil.readFloat64(byte);
+		this.time = ByteUtil.readUint64(byte);
     }
 }
 class EnterWorld{
@@ -216,12 +197,12 @@ class EnterWorld{
      */
 
 	public role : RoleData;	//角色
-	public packs : Object[];	//背包数据
+	public packs : PackData[];	//背包数据
 	public modules : number[];	//开启模块
 	public customize : string;	//自定义保存参数
     constructor(byte:Byte){
 		this.role = RoleData.readByte(byte);
-		this.packs = ByteUtil.readArray(byte);
+		this.packs = ByteUtil.readArray(byte , PackData.readByte);
 		this.modules = ByteUtil.readArray(byte , ByteUtil.readInt16);
 		this.customize = ByteUtil.readString(byte);
     }
@@ -314,13 +295,13 @@ class RoleEnterWorld{
      */
 
 	public mapId : number;	//
-	public posX : number;	//
-	public posY : number;	//
+	public posX : Uint64;	//
+	public posY : Uint64;	//
 	public role : RoleData;	//角色信息
     constructor(byte:Byte){
-		this.mapId = ByteUtil.readUint16(byte);
-		this.posX = ByteUtil.readInt32(byte);
-		this.posY = ByteUtil.readInt32(byte);
+		this.mapId = ByteUtil.readInt16(byte);
+		this.posX = ByteUtil.readUint64(byte);
+		this.posY = ByteUtil.readUint64(byte);
 		this.role = RoleData.readByte(byte);
     }
 }
@@ -343,33 +324,35 @@ class ProtocolHash{
     public static Readers:Function[] = [];
     public static Writers:Function[] = [];
     public static Adapter:any[] = [];
+    public static registHashes():void{
+		ProtocolHash.Readers[1] = AttributesData.readByte;
+		ProtocolHash.Readers[2] = EquipData.readByte;
+		ProtocolHash.Readers[3] = GridData.readByte;
+		ProtocolHash.Readers[4] = ItemData.readByte;
+		ProtocolHash.Readers[5] = PackData.readByte;
+		ProtocolHash.Readers[6] = RoleData.readByte;
+
+		ProtocolHash.Writers[1] = AttributesData.writeByte;
+		ProtocolHash.Writers[2] = EquipData.writeByte;
+		ProtocolHash.Writers[3] = GridData.writeByte;
+		ProtocolHash.Writers[4] = ItemData.writeByte;
+		ProtocolHash.Writers[5] = PackData.writeByte;
+		ProtocolHash.Writers[6] = RoleData.writeByte;
+
+
+		ProtocolHash.Adapter[0x10001] = Login;
+		ProtocolHash.Adapter[0x20000] = Heap;
+		ProtocolHash.Adapter[0x50001] = EnterWorld;
+		ProtocolHash.Adapter[0x40001] = PackInit;
+		ProtocolHash.Adapter[0x40002] = PackMove;
+		ProtocolHash.Adapter[0x40003] = PackDelete;
+		ProtocolHash.Adapter[0x40004] = PackSell;
+		ProtocolHash.Adapter[0x40005] = PackAdd;
+		ProtocolHash.Adapter[0x30001] = RoleCreate;
+		ProtocolHash.Adapter[0x30002] = RoleEnterWorld;
+
+    }
 }
-ProtocolHash.Readers[1] = AttributesData.readByte;
-ProtocolHash.Readers[2] = EquipData.readByte;
-ProtocolHash.Readers[3] = GridData.readByte;
-ProtocolHash.Readers[4] = ItemData.readByte;
-ProtocolHash.Readers[5] = PackData.readByte;
-ProtocolHash.Readers[6] = RoleBaseData.readByte;
-ProtocolHash.Readers[7] = RoleData.readByte;
 
 
-ProtocolHash.Writers[1] = AttributesData.writeByte;
-ProtocolHash.Writers[2] = EquipData.writeByte;
-ProtocolHash.Writers[3] = GridData.writeByte;
-ProtocolHash.Writers[4] = ItemData.writeByte;
-ProtocolHash.Writers[5] = PackData.writeByte;
-ProtocolHash.Writers[6] = RoleBaseData.writeByte;
-ProtocolHash.Writers[7] = RoleData.writeByte;
-
-
-ProtocolHash.Adapter[0x10001] = Login;
-ProtocolHash.Adapter[0x20000] = Heap;
-ProtocolHash.Adapter[0x50001] = EnterWorld;
-ProtocolHash.Adapter[0x40001] = PackInit;
-ProtocolHash.Adapter[0x40002] = PackMove;
-ProtocolHash.Adapter[0x40003] = PackDelete;
-ProtocolHash.Adapter[0x40004] = PackSell;
-ProtocolHash.Adapter[0x40005] = PackAdd;
-ProtocolHash.Adapter[0x30001] = RoleCreate;
-ProtocolHash.Adapter[0x30002] = RoleEnterWorld;
 

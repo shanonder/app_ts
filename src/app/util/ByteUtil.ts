@@ -55,8 +55,8 @@ class ByteUtil{
         byte.writeUint32(value);
     }
 
-    public static writeUint64(byte:Byte , value:number):void{
-        byte.writeUint32(value);
+    public static writeUint64(byte:Byte , value:Uint64):void{
+        Uint64.writeByte(byte,value);
     }
 
     public static writeInt8(byte:Byte , value:number):void{
@@ -100,7 +100,7 @@ class ByteUtil{
             byte.writeUint16(0);
             return;
         }
-        var sequence:number = value.__getSequence();
+        var sequence:number = value.__$Sequence();
         byte.writeUint16(sequence);
         ProtocolHash.Writers[sequence].call(byte,value);
     }
