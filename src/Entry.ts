@@ -1,4 +1,3 @@
-
 module Game{
     export class MyDemo extends ui.test.DemoUI{
         public static SINGLE_KEY = "Game.MyDemo";
@@ -43,9 +42,13 @@ module Game{
             // App.ViewManager.regist(Game.MyDemo,"res/atlas/comp.json");
             // App.ViewManager.toggleDialog(Game.MyDemo);
             Laya.init(900,1280);
-            let socket:Laya.Socket = new Laya.Socket();
-            socket.connect("127.0.0.1",8081);
-
+            // let socket:Laya.Socket = new Laya.Socket();
+            // socket.connect("127.0.0.1",19860);
+            let socket:SocketIOClient.Socket = io.connect('http://localhost:19860');
+            socket.on('news', function (data) {
+                console.log(data);
+                socket.emit('my other event', { my: 'data' });
+            });
         }
     }
 }

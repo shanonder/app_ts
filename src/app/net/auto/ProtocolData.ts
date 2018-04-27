@@ -1,9 +1,8 @@
 /**==============ProtocolData======================*/
+/**
+ * 属性
+ */
 class AttributesData implements ISequence{
-    /**
-     * 属性
-     */
-
 	public __$Sequence(){return 1;}
 
 	public cfgId : number;	//配置表ID
@@ -22,11 +21,10 @@ class AttributesData implements ISequence{
         return byte;
     }
 }
+/**
+ * 物品
+ */
 class ItemData implements ISequence{
-    /**
-     * 物品
-     */
-
 	public __$Sequence(){return 4;}
 
 	public insId : string;	//唯一ID
@@ -51,11 +49,10 @@ class ItemData implements ISequence{
         return byte;
     }
 }
+/**
+ * 武器
+ */
 class EquipData extends ItemData{
-    /**
-     * 武器
-     */
-
 	public __$Sequence(){return 2;}
 
 	public strenthLv : number;	//唯一ID
@@ -76,11 +73,10 @@ class EquipData extends ItemData{
         return byte;
     }
 }
+/**
+ * 
+ */
 class PackData implements ISequence{
-    /**
-     * 
-     */
-
 	public __$Sequence(){return 5;}
 
 	public type : number;	//唯一ID
@@ -102,11 +98,10 @@ class PackData implements ISequence{
         return byte;
     }
 }
+/**
+ * 
+ */
 class GridData implements ISequence{
-    /**
-     * 
-     */
-
 	public __$Sequence(){return 3;}
 
 	public index : number;	//序号
@@ -125,11 +120,10 @@ class GridData implements ISequence{
         return byte;
     }
 }
+/**
+ * 
+ */
 class RoleData implements ISequence{
-    /**
-     * 
-     */
-
 	public __$Sequence(){return 6;}
 
 	public insId : string;	//唯一ID
@@ -163,11 +157,10 @@ class RoleData implements ISequence{
         return byte;
     }
 }
+/**
+ * 登录返回
+ */
 class Login{
-    /**
-     * 登录返回
-     */
-
 	public platId : number;	//登录平台
 	public serverId : number;	//服务器ID
 	public openId : string;	//玩家第三方ID
@@ -181,21 +174,19 @@ class Login{
 		this.uid = ByteUtil.readString(byte);
     }
 }
+/**
+ * 心跳包
+ */
 class Heap{
-    /**
-     * 心跳包
-     */
-
 	public time : Uint64;	//当前时间
     constructor(byte:Byte){
 		this.time = ByteUtil.readUint64(byte);
     }
 }
+/**
+ * 进入场景（初始化）
+ */
 class EnterWorld{
-    /**
-     * 进入场景（初始化）
-     */
-
 	public role : RoleData;	//角色
 	public packs : PackData[];	//背包数据
 	public modules : number[];	//开启模块
@@ -207,21 +198,19 @@ class EnterWorld{
 		this.customize = ByteUtil.readString(byte);
     }
 }
+/**
+ * 包裹初始化
+ */
 class PackInit{
-    /**
-     * 包裹初始化
-     */
-
 	public packs : PackData[];	//
     constructor(byte:Byte){
 		this.packs = ByteUtil.readArray(byte , PackData.readByte);
     }
 }
+/**
+ * 物品移动
+ */
 class PackMove{
-    /**
-     * 物品移动
-     */
-
 	public type0 : number;	//移动源包裹类型
 	public index0 : number;	//移动源包裹索引
 	public insId0 : string;	//移动源包裹物品唯一ID
@@ -237,11 +226,10 @@ class PackMove{
 		this.insId1 = ByteUtil.readString(byte);
     }
 }
+/**
+ * 物品删除（丢弃）
+ */
 class PackDelete{
-    /**
-     * 物品删除（丢弃）
-     */
-
 	public type : number;	//包裹类型
 	public index : number;	//包裹索引
 	public insId : string;	//包裹物品唯一ID(检查用)
@@ -251,11 +239,10 @@ class PackDelete{
 		this.insId = ByteUtil.readString(byte);
     }
 }
+/**
+ * 物品出售
+ */
 class PackSell{
-    /**
-     * 物品出售
-     */
-
 	public type : number;	//包裹类型
 	public index : number;	//包裹索引
 	public insId : string;	//包裹物品唯一ID(检查用)
@@ -265,11 +252,10 @@ class PackSell{
 		this.insId = ByteUtil.readString(byte);
     }
 }
+/**
+ * 物品生成
+ */
 class PackAdd{
-    /**
-     * 物品生成
-     */
-
 	public type : number;	//包裹类型
 	public index : number;	//包裹索引
 	public item : ItemData;	//物品
@@ -279,21 +265,19 @@ class PackAdd{
 		this.item = ItemData.readByte(byte);
     }
 }
+/**
+ * 创建角色  {state:200,成功 201:姓名重复 ,202:包含不可用字}
+ */
 class RoleCreate{
-    /**
-     * 创建角色  {state:200,成功 201:姓名重复 ,202:包含不可用字}
-     */
-
 
     constructor(byte:Byte){
 
     }
 }
+/**
+ * 进入场景
+ */
 class RoleEnterWorld{
-    /**
-     * 进入场景
-     */
-
 	public mapId : number;	//
 	public posX : Uint64;	//
 	public posY : Uint64;	//
